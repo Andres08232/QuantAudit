@@ -85,6 +85,22 @@ Executes flat-stake backtests across multiple models and EV thresholds.
 
 ![roi attribution Placeholder](docs/images/roi_attribution.png)
 
+## 🧪 Case Study: Diagnosing a Failed Model
+
+The images above show the autopsy of a RandomForest classifier trained on synthetic data. 
+
+**The illusion:** The model had positive theoretical EV (+8 cumulative) and acceptable calibration.
+
+**The reality:** The model destroyed capital systematically (-142 cumulative ROI). 
+
+**The diagnosis (via QuantAudit):**
+1. The model was overconfident in high-probability predictions (Calibration Curve)
+2. Only the top 10% of predictions were profitable (Edge Stratification)
+3. Theoretical EV diverged massively from realized ROI (EV Decomposition)
+4. No EV threshold made the model profitable (ROI Attribution)
+
+**The lesson:** A model can look good on paper and still destroy capital. QuantAudit helps you find out why before you lose money.
+
 ---
 
 ## Installation
