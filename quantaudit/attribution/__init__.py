@@ -1,1 +1,2 @@
-"""ROI and PnL attribution models."""
+"""Economic attribution and threshold backtesting."""
+from .roi_attribution import ROIAttributionAuditor
