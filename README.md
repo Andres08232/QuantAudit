@@ -43,7 +43,7 @@ QuantAudit is the open-source extraction of that forensic framework. It is not a
 
 QuantAudit structures the diagnostic process into four sequential modules.
 
-### 1. `calibration`
+### 1. `Calibration`
 
 **Question:** *Is the model lying about its probabilities?*
 
@@ -55,7 +55,7 @@ Evaluates global and tail calibration to detect overconfidence in extreme predic
 
 ---
 
-### 2. `diagnostics.ev_decomposition`
+### 2. `Diagnostics: ev_decomposition`
 
 **Question:** *Is the Expected Value formula broken?*
 
@@ -65,7 +65,7 @@ Decomposes Expected Value into realized outcomes to detect whether the model is 
 
 ---
 
-### 3. `diagnostics.edge_stratification`
+### 3. `Diagnostics: edge_stratification`
 
 **Question:** *Is the theoretical edge translating into real money?*
 
@@ -75,7 +75,7 @@ Stratifies ROI by edge deciles and market implied probability. Detects Favorite-
 
 ---
 
-### 4. `attribution.roi_attribution`
+### 4. `Attribution:roi_attribution`
 
 **Question:** *How do models perform under increasing strictness?*
 
