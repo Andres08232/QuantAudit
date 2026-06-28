@@ -5,9 +5,11 @@ quantaudit.calibration.metrics
 Pure mathematical functions for evaluating the probabilistic calibration 
 of binary classification models.
 
-This module provides implementations of standard calibration metrics such as 
-Expected Calibration Error (ECE), Overconfidence Index (OCI), and Tail Error, 
-alongside standard scoring rules like Log Loss and Brier Score.
+
+While standard libraries like scikit-learn provide Log Loss and Brier Score, 
+this module focuses on advanced diagnostic metrics that sklearn lacks, 
+specifically designed to identify overconfidence and tail-risk miscalibration 
+(Overconfidence Index, Tail Error).
 """
 
 from __future__ import annotations

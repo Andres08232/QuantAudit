@@ -1,1 +1,2 @@
-"""Diagnostics for Expected Value and Edge analysis."""
+"""Diagnostics for model realization and edge analysis."""
+from .ev_decomposition import EVDecompositionAuditor
