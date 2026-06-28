@@ -83,6 +83,8 @@ Executes flat-stake backtests across multiple models and EV thresholds.
 
 *Metrics: ROI, Profit Factor, Maximum Drawdown.*
 
+![roi attribution Placeholder](docs/images/roi_attribution.png)
+
 ---
 
 ## Installation
