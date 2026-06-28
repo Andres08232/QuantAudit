@@ -2,7 +2,7 @@
 
 **QuantAudit** is an open-source Python library designed to audit, evaluate, and diagnose probabilistic models in asymmetric payoff environments.
 
-Originally born from the ashes of **VisionGoat** (a sports betting predictive engine that proved the market is too efficient to beat with public data), QuantAudit repurposes its rigorous quantitative auditing framework for general use. It is not a tool to "find winning bets"; it is a **forensic scalpel** to diagnose exactly *why* your model is destroying capital.
+QuantAudit repurposes its rigorous quantitative auditing framework for general use. It is not a tool to "find winning bets"; it is a **forensic scalpel** to diagnose exactly *why* your model is destroying capital.
 
 ---
 
