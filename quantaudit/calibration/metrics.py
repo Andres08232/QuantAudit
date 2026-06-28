@@ -40,8 +40,14 @@ def _validate_inputs(y_true: np.ndarray, y_prob: np.ndarray) -> tuple[np.ndarray
     
     # Filter out NaNs or infinite values in predictions
     valid_mask = np.isfinite(y_prob)
+    if len(y_true[valid_mask]) == 0:
+        raise ValueError("No valid observations after removing NaNs or infinite values.")
     y_true_clean = y_true[valid_mask]
     y_prob_clean = y_prob[valid_mask]
+    
+    # Validate probs are in [0, 1]
+    if np.any((y_prob_clean < 0) | (y_prob_clean > 1)):
+        raise ValueError("Predicted probabilities must be in the range [0, 1].")
     
     # Clip probabilities to avoid log(0)
     y_prob_clean = np.clip(y_prob_clean, PROB_EPS, 1.0 - PROB_EPS)
@@ -171,4 +177,11 @@ def evaluate_model(
         oci=overconfidence_index(y, p, high_conf_threshold),
         tail_error=tail_error(y, p, top_frac),
         n_samples=int(len(y))
+    )
+
+valid_labels = np.isin(y_true_clean, [0, 1])
+
+if not np.all(valid_labels):
+    raise ValueError(
+        "y_true must contain only binary labels {0,1}."
     )

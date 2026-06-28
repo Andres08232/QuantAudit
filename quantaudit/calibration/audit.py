@@ -60,6 +60,8 @@ class CalibrationAuditor:
                     f"Shape mismatch for model '{name}': "
                     f"y_true {self.y_true.shape} vs probs {probs.shape}"
                 )
+        if not (0 < self.self.top_frac <= 1):
+            raise ValueError("top_frac must be in the range (0, 1].")
 
     def compute_metrics(self) -> pd.DataFrame:
         """
