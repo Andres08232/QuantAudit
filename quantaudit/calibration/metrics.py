@@ -1,15 +1,7 @@
 """
 quantaudit.calibration.metrics
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Pure mathematical functions for evaluating the probabilistic calibration 
 of binary classification models.
-
-
-While standard libraries like scikit-learn provide Log Loss and Brier Score, 
-this module focuses on advanced diagnostic metrics that sklearn lacks, 
-specifically designed to identify overconfidence and tail-risk miscalibration 
-(Overconfidence Index, Tail Error).
 """
 
 from __future__ import annotations
@@ -48,6 +40,14 @@ def _validate_inputs(y_true: np.ndarray, y_prob: np.ndarray) -> tuple[np.ndarray
     # Validate probs are in [0, 1]
     if np.any((y_prob_clean < 0) | (y_prob_clean > 1)):
         raise ValueError("Predicted probabilities must be in the range [0, 1].")
+        
+    # Validate that y_true contains only binary labels {0, 1}
+    valid_labels = np.isin(y_true_clean, [0, 1])
+    if not np.all(valid_labels):
+        raise ValueError(
+            f"y_true must contain only binary labels {{0,1}}. "
+            f"Found invalid values: {np.unique(y_true_clean[~valid_labels])}"
+        )
     
     # Clip probabilities to avoid log(0)
     y_prob_clean = np.clip(y_prob_clean, PROB_EPS, 1.0 - PROB_EPS)
@@ -57,20 +57,7 @@ def _validate_inputs(y_true: np.ndarray, y_prob: np.ndarray) -> tuple[np.ndarray
 def expected_calibration_error(
     y_true: np.ndarray, y_prob: np.ndarray, n_bins: int = 10
 ) -> float:
-    """
-    Calculates the Expected Calibration Error (ECE).
-    
-    ECE measures the weighted average of the absolute difference between 
-    predicted probabilities and empirical frequencies across bins.
-    
-    Args:
-        y_true: Array of true binary labels (0 or 1).
-        y_prob: Array of predicted probabilities.
-        n_bins: Number of bins to divide the probability space into.
-        
-    Returns:
-        The ECE score (lower is better, 0.0 is perfect).
-    """
+    """Calculates the Expected Calibration Error (ECE)."""
     bins = np.linspace(0.0, 1.0, n_bins + 1)
     bin_ids = np.digitize(y_prob, bins, right=True) - 1
     bin_ids = np.clip(bin_ids, 0, n_bins - 1)
@@ -93,20 +80,7 @@ def expected_calibration_error(
 def overconfidence_index(
     y_true: np.ndarray, y_prob: np.ndarray, high_conf_threshold: float = 0.7
 ) -> float:
-    """
-    Calculates the Overconfidence Index (OCI).
-    
-    Measures the average absolute gap between predicted probability and 
-    empirical frequency specifically in the high-confidence zone.
-    
-    Args:
-        y_true: Array of true binary labels.
-        y_prob: Array of predicted probabilities.
-        high_conf_threshold: Minimum probability to be considered "high confidence".
-        
-    Returns:
-        The OCI score (lower is better). Returns NaN if no samples exceed the threshold.
-    """
+    """Calculates the Overconfidence Index (OCI)."""
     high_mask = y_prob > high_conf_threshold
     if not high_mask.any():
         return float('nan')
@@ -117,20 +91,7 @@ def overconfidence_index(
 def tail_error(
     y_true: np.ndarray, y_prob: np.ndarray, top_frac: float = 0.10
 ) -> float:
-    """
-    Calculates the Tail Error.
-    
-    Measures the calibration error specifically in the most confident 
-    predictions (the top X% of probabilities).
-    
-    Args:
-        y_true: Array of true binary labels.
-        y_prob: Array of predicted probabilities.
-        top_frac: Fraction of the most confident predictions to evaluate.
-        
-    Returns:
-        The Tail Error score (lower is better). Returns NaN if input is empty.
-    """
+    """Calculates the Tail Error."""
     if len(y_prob) == 0:
         return float('nan')
         
@@ -149,19 +110,7 @@ def evaluate_model(
     high_conf_threshold: float = 0.7, 
     top_frac: float = 0.10
 ) -> CalibrationMetrics:
-    """
-    Computes all calibration metrics for a single model.
-    
-    Args:
-        y_true: Array of true binary labels.
-        y_prob: Array of predicted probabilities.
-        n_bins: Number of bins for ECE.
-        high_conf_threshold: Threshold for OCI.
-        top_frac: Fraction for Tail Error.
-        
-    Returns:
-        A CalibrationMetrics dataclass containing all computed scores.
-    """
+    """Computes all calibration metrics for a single model."""
     y, p = _validate_inputs(y_true, y_prob)
     
     if len(y) == 0:
@@ -177,11 +126,4 @@ def evaluate_model(
         oci=overconfidence_index(y, p, high_conf_threshold),
         tail_error=tail_error(y, p, top_frac),
         n_samples=int(len(y))
-    )
-
-valid_labels = np.isin(y_true_clean, [0, 1])
-
-if not np.all(valid_labels):
-    raise ValueError(
-        "y_true must contain only binary labels {0,1}."
     )
