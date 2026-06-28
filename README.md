@@ -39,7 +39,7 @@ QuantAudit is the open-source extraction of that forensic framework. It is not a
 
 ---
 
-## The 4-Step Autopsy Pipeline
+## The 4-Step Autopsy Pipeline (Graph Explanation Below)
 
 QuantAudit structures the diagnostic process into four sequential modules.
 
