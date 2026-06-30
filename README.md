@@ -178,6 +178,15 @@ QuantAudit includes unit tests to ensure the mathematical integrity of the finan
 pip install pytest
 pytest tests/
 ```
+---
+
+## 👤 About the Author
+
+Built by **Andrés Cabra **, ML Model Auditor who believes in rigorous validation over blind execution.
+
+- 🔗 **LinkedIn:** https://www.linkedin.com/in/andr%C3%A9s-cabra-97663b220/
+- 💼 **Services:** I offer quantitative audits for ML models. If your model has excellent metrics but terrible ROI, let's talk.
+- 🎓 **Certifications:** Google Cloud Generative AI, Kaggle ML, Prompt Design in Vertex AI, more upcoming...
 
 ---
 
